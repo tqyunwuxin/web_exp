@@ -32,7 +32,7 @@
             transform: scale(1.05);
         }
         
-        /* VIP状态显示 */
+        /* VIP status display */
         .vip-status {
             position: fixed;
             top: 20px;
@@ -50,7 +50,7 @@
             box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
         }
         
-        /* 加载提示 */
+        /* Loading hint */
         .loading-hint {
             position: fixed;
             top: 50%;
@@ -92,14 +92,14 @@
     </style>
 </head>
 <body>
-    <!-- VIP用户状态显示 -->
+    <!-- VIP User Status Display -->
     <div class="vip-status" id="vipStatus">
-        <div class="vip-badge">⭐ VIP用户 - 加载优化</div>
+        <div class="vip-badge">⭐ VIP User - Loading Optimized</div>
     </div>
     
-    <!-- 加载提示 -->
+    <!-- Loading Hint -->
     <div class="loading-hint" id="loadingHint">
-        <div id="loadingMessage">🚀 VIP优化加载中...</div>
+        <div id="loadingMessage">🚀 VIP Optimized Loading...</div>
         <div style="margin-top: 1rem;">
             <div style="border: 2px solid #667eea; border-top: 2px solid transparent; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
         </div>
@@ -111,7 +111,7 @@
     </div>
     
     <script>
-        // 添加旋转动画CSS
+        // Add spinning animation CSS
         const style = document.createElement('style');
         style.textContent = `
             @keyframes spin {
@@ -121,28 +121,28 @@
         `;
         document.head.appendChild(style);
         
-        // 检测用户是否已付费
+        // Check if user has paid
         function isPaid() {
             return localStorage.getItem('premiumUser') === 'true';
         }
         
-        // 显示加载过程
+        // Show game loading process
         function showGameLoading() {
             const isPaidUser = isPaid();
             const loadingHint = document.getElementById('loadingHint');
             const loadingMessage = document.getElementById('loadingMessage');
             
             if (isPaidUser) {
-                loadingMessage.innerHTML = '🚀 VIP优化加载中...';
+                loadingMessage.innerHTML = '🚀 VIP Optimized Loading...';
                 loadingMessage.className = 'loading-premium';
             } else {
-                loadingMessage.innerHTML = '⏳ 正在加载游戏...';
+                loadingMessage.innerHTML = '⏳ Loading game...';
                 loadingMessage.className = 'loading-free';
             }
             
             loadingHint.style.display = 'block';
             
-            // 根据用户类型设置不同的加载时间
+            // Set different loading times based on user type
             const loadDelay = isPaidUser ? 800 : 2500;
             
             setTimeout(() => {
@@ -151,13 +151,13 @@
             }, loadDelay);
         }
         
-        // 页面加载时检查VIP状态
+        // Check VIP status when page loads
         document.addEventListener('DOMContentLoaded', () => {
             if (isPaid()) {
                 document.getElementById('vipStatus').style.display = 'block';
             }
             
-            // 显示加载过程，然后初始化游戏
+            // Show loading process, then initialize game
             showGameLoading();
         });
     </script>

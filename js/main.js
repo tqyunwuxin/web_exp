@@ -72,59 +72,59 @@ function initGamePage() {
     }
 }
 
-// 付费功能相关代码
+// Premium features related code
 
-// 检测用户是否已付费
+// Check if user has paid
 function isPaid() {
     return localStorage.getItem('premiumUser') === 'true';
 }
 
-// 设置付费状态
+// Set paid status
 function setPaidStatus() {
     localStorage.setItem('premiumUser', 'true');
     localStorage.setItem('paidDate', new Date().toISOString());
     updateUIForPaidUser();
 }
 
-// 更新UI显示付费状态
+// Update UI for paid user
 function updateUIForPaidUser() {
-    // 添加premium用户类
+    // Add premium user class
     document.body.classList.add('premium-user');
     
-    // 显示VIP状态
+    // Show VIP status
     const vipStatus = document.getElementById('vipStatus');
     if (vipStatus) {
         vipStatus.style.display = 'block';
     }
     
-    // 隐藏付费横幅
+    // Hide premium section
     const premiumSection = document.getElementById('premiumSection');
     if (premiumSection) {
         premiumSection.style.display = 'none';
     }
 }
 
-// 模拟支付流程
+// Simulate payment process
 function initiatePay() {
-    // 显示支付确认对话框
+    // Display payment confirmation dialog
     const confirmed = confirm(
-        '🚀 升级到优化版本\n\n' +
-        '✓ 游戏加载体验优化\n' +
-        '✓ 更好的界面体验\n' +
-        '✓ VIP用户专属标识\n\n' +
-        '价格：$1 (一次性付费)\n\n' +
-        '点击确定继续支付流程'
+        '🚀 Upgrade to Optimized Version\n\n' +
+        '✓ Optimized game loading experience\n' +
+        '✓ Enhanced interface experience\n' +
+        '✓ VIP user exclusive badge\n\n' +
+        'Price: $1 (One-time payment)\n\n' +
+        'Click OK to continue payment process'
     );
     
     if (confirmed) {
-        // 模拟支付流程
+        // Simulate payment process
         showPaymentProcess();
     }
 }
 
-// 显示支付流程
+// Display payment process
 function showPaymentProcess() {
-    // 创建支付模拟界面
+    // Create payment simulation interface
     const paymentModal = document.createElement('div');
     paymentModal.style.cssText = `
         position: fixed;
@@ -141,20 +141,20 @@ function showPaymentProcess() {
     
     paymentModal.innerHTML = `
         <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; max-width: 400px;">
-            <h3>💳 支付处理中...</h3>
-            <p>正在跳转到Creem支付页面</p>
+            <h3>💳 Processing Payment...</h3>
+            <p>Redirecting to Creem payment page</p>
             <div style="margin: 1rem 0;">
                 <div style="border: 2px solid #667eea; border-top: 2px solid transparent; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
             </div>
             <p style="font-size: 0.9rem; color: #666;">
-                实际环境中将跳转到真实支付页面<br>
-                <small>（演示模式：3秒后自动完成支付）</small>
+                In production, this will redirect to actual payment page<br>
+                <small>(Demo mode: Payment will complete automatically in 3 seconds)</small>
             </p>
-            <button onclick="cancelPayment()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #ccc; border: none; border-radius: 5px; cursor: pointer;">取消</button>
+            <button onclick="cancelPayment()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #ccc; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
         </div>
     `;
     
-    // 添加旋转动画CSS
+    // Add spinning animation CSS
     const style = document.createElement('style');
     style.textContent = `
         @keyframes spin {
@@ -166,58 +166,58 @@ function showPaymentProcess() {
     
     document.body.appendChild(paymentModal);
     
-    // 3秒后模拟支付成功
+    // Simulate payment success after 3 seconds
     setTimeout(() => {
         document.body.removeChild(paymentModal);
         paymentSuccess();
     }, 3000);
     
-    // 全局取消支付函数
+    // Global cancel payment function
     window.cancelPayment = function() {
         document.body.removeChild(paymentModal);
     };
 }
 
-// 支付成功处理
+// Payment success handler
 function paymentSuccess() {
-    // 设置付费状态
+    // Set paid status
     setPaidStatus();
     
-    // 显示成功消息
-    alert('🎉 支付成功！\n\n现在您已升级为VIP用户，享受优化的游戏加载体验！\n\n刷新页面即可体验新功能。');
+    // Display success message
+    alert('🎉 Payment Successful!\n\nYou are now a VIP user with optimized game loading experience!\n\nRefresh the page to experience the new features.');
     
-    // 刷新页面以显示新状态
+    // Refresh page to display new status
     location.reload();
 }
 
-// 优化的游戏加载函数
+// Optimized game loading function
 function loadGameWithOptimization(gameId, gameUrl) {
     const isPaidUser = isPaid();
-    const loadDelay = isPaidUser ? 500 : 3000; // VIP用户0.5秒，免费用户3秒
+    const loadDelay = isPaidUser ? 500 : 3000; // VIP users 0.5s, free users 3s
     
-    // 保存游戏URL到本地存储
+    // Save game URL to local storage
     localStorage.setItem('currentGame', gameUrl);
     
-    // 显示加载指示器
+    // Show loading indicator
     showLoadingIndicator(isPaidUser);
     
-    // 延迟加载以体现差异
+    // Delayed loading to show difference
     setTimeout(() => {
         window.location.href = `game.html?id=${gameId}`;
     }, loadDelay);
 }
 
-// 显示加载指示器
+// Show loading indicator
 function showLoadingIndicator(isPaidUser) {
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'loading-indicator';
     loadingDiv.innerHTML = isPaidUser 
-        ? '<div class="loading-premium">🚀 VIP优化加载中...</div>'
-        : '<div class="loading-free">⏳ 正在加载游戏...</div>';
+        ? '<div class="loading-premium">🚀 VIP Optimized Loading...</div>'
+        : '<div class="loading-free">⏳ Loading game...</div>';
     
     document.body.appendChild(loadingDiv);
     
-    // 3秒后移除（如果还存在）
+    // Remove after 3 seconds (if still exists)
     setTimeout(() => {
         if (document.body.contains(loadingDiv)) {
             document.body.removeChild(loadingDiv);
