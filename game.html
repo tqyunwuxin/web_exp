@@ -31,18 +31,137 @@
         .back-button:hover {
             transform: scale(1.05);
         }
+        
+        /* VIP状态显示 */
+        .vip-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .vip-badge {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* 加载提示 */
+        .loading-hint {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .loading-premium {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .loading-free {
+            color: #666;
+        }
+        
         @media (max-width: 768px) {
             .game-container {
                 height: 80vh;
+            }
+            
+            .vip-status {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .vip-badge {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- VIP用户状态显示 -->
+    <div class="vip-status" id="vipStatus">
+        <div class="vip-badge">⭐ VIP用户 - 加载优化</div>
+    </div>
+    
+    <!-- 加载提示 -->
+    <div class="loading-hint" id="loadingHint">
+        <div id="loadingMessage">🚀 VIP优化加载中...</div>
+        <div style="margin-top: 1rem;">
+            <div style="border: 2px solid #667eea; border-top: 2px solid transparent; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+        </div>
+    </div>
+    
     <div class="game-container"></div>
     <div class="game-controls">
         <button onclick="window.location.href='index.html'" class="back-button">Back to Home</button>
     </div>
+    
+    <script>
+        // 添加旋转动画CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 检测用户是否已付费
+        function isPaid() {
+            return localStorage.getItem('premiumUser') === 'true';
+        }
+        
+        // 显示加载过程
+        function showGameLoading() {
+            const isPaidUser = isPaid();
+            const loadingHint = document.getElementById('loadingHint');
+            const loadingMessage = document.getElementById('loadingMessage');
+            
+            if (isPaidUser) {
+                loadingMessage.innerHTML = '🚀 VIP优化加载中...';
+                loadingMessage.className = 'loading-premium';
+            } else {
+                loadingMessage.innerHTML = '⏳ 正在加载游戏...';
+                loadingMessage.className = 'loading-free';
+            }
+            
+            loadingHint.style.display = 'block';
+            
+            // 根据用户类型设置不同的加载时间
+            const loadDelay = isPaidUser ? 800 : 2500;
+            
+            setTimeout(() => {
+                loadingHint.style.display = 'none';
+                initGamePage();
+            }, loadDelay);
+        }
+        
+        // 页面加载时检查VIP状态
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isPaid()) {
+                document.getElementById('vipStatus').style.display = 'block';
+            }
+            
+            // 显示加载过程，然后初始化游戏
+            showGameLoading();
+        });
+    </script>
+    
     <script src="js/main.js"></script>
 </body>
 </html> 
